@@ -8,6 +8,8 @@ import com.leeyumo.common.models.JsonResult;
 import com.leeyumo.eagleEye.constants.EagleEyeCodeMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,15 +19,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionAdvice.class);
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public JsonResult handleAccessDeniedException(AccessDeniedException e){
-//        return JsonResult.fail(e.getMessage());
-//    }
-//
-//    @ExceptionHandler(AuthenticationException.class)
-//    public JsonResult handleAuthenticationException(AuthenticationException e){
-//        return JsonResult.res(EagleEyeCodeMsg.AuthFailure,e.getMessage());
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    public JsonResult handleAccessDeniedException(AccessDeniedException e){
+        return JsonResult.fail("拒绝访问，缺少相关权限");
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public JsonResult handleAuthenticationException(AuthenticationException e){
+        return JsonResult.res(EagleEyeCodeMsg.AuthFailure,e.getMessage());
+    }
 
 
     @ExceptionHandler(BusinessException.class)
@@ -39,9 +41,13 @@ public class GlobalExceptionAdvice {
         return JsonResult.fail(BaseCodeMsg.SystemError);
     }
 
-    @ExceptionHandler(ApiException.class)
+    @ExceptionHandler({
+            com.leeyumo.adk.learningSpring.invoker.ApiException.class,
+            com.leeyumo.adk.userCenter.invoker.ApiException.class})
     public JsonResult handleLsApiException(ApiException e){
         logger.error("adk请求异常",e);
         return JsonResult.fail(EagleEyeCodeMsg.requestFail);
     }
+
+
 }

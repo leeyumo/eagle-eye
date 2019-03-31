@@ -5,7 +5,6 @@ import com.leeyumo.adk.learningSpring.invoker.ApiException;
 import com.leeyumo.adk.learningSpring.model.*;
 import com.leeyumo.common.constants.BaseCodeMsg;
 import com.leeyumo.common.models.JsonResult;
-import com.leeyumo.eagleEye.constants.EagleEyeCodeMsg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

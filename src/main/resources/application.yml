@@ -5,9 +5,9 @@ server:
 spring:
   profiles:
     active: dev
-  security:
-    user:
-      name: user
-      password: 123456
+#  security:
+#    user:
+#      name: user
+#      password: 123456
 http:
   timeout: 5000
